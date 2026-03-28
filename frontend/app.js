@@ -54,26 +54,6 @@ function handleDoneMessage(msg) {
   ws.close();
 }
 
-function handleDecideDoneMessage(msg) {
-  document.getElementById("decide-verdict").textContent = msg.verdict || "";
-
-  if (msg.card_a) {
-    document.getElementById("card-a-img").src = "data:image/png;base64," + msg.card_a;
-    document.getElementById("card-a-img").style.display = "";
-  } else {
-    document.getElementById("card-a-img").style.display = "none";
-  }
-
-  if (msg.card_b) {
-    document.getElementById("card-b-img").src = "data:image/png;base64," + msg.card_b;
-    document.getElementById("card-b-img").style.display = "";
-  } else {
-    document.getElementById("card-b-img").style.display = "none";
-  }
-
-  showState("state-decide-reveal");
-  ws.close();
-}
 
 function makeMessageHandler() {
   return (event) => {
@@ -81,11 +61,7 @@ function makeMessageHandler() {
     if (msg.status === "thinking") {
       showState("state-thinking");
     } else if (msg.status === "done") {
-      if (msg.mode === "decide") {
-        handleDecideDoneMessage(msg);
-      } else {
-        handleDoneMessage(msg);
-      }
+      handleDoneMessage(msg);
     } else if (msg.status === "error") {
       document.getElementById("error-msg").textContent = msg.message || "Something went wrong.";
       showState("state-error");
@@ -137,7 +113,7 @@ async function startTextSession() {
 }
 
 async function startDecideSession() {
-  setThinking("Reading between the lines…");
+  setThinking("I'm listening…");
   showState("state-thinking");
   try {
     await connect();
@@ -173,7 +149,6 @@ document.getElementById("send-btn").addEventListener("click", startTextSession);
 document.getElementById("decide-btn").addEventListener("click", startDecideSession);
 document.getElementById("cancel-btn").addEventListener("click", reset);
 document.getElementById("again-btn").addEventListener("click", reset);
-document.getElementById("decide-again-btn").addEventListener("click", reset);
 document.getElementById("retry-btn").addEventListener("click", reset);
 document.getElementById("mode-voice-btn").addEventListener("click", () => setMode("voice"));
 document.getElementById("mode-text-btn").addEventListener("click", () => setMode("text"));
