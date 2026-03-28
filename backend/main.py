@@ -161,6 +161,7 @@ async def run_voice_session() -> str | None:
 
             async def send_task():
                 silence_start = None
+                has_spoken = False
                 while not stop_event.is_set():
                     chunk = await loop.run_in_executor(
                         None, input_stream.read, CHUNK, False
@@ -168,15 +169,16 @@ async def run_voice_session() -> str | None:
                     count = len(chunk) // 2
                     shorts = struct.unpack(f"{count}h", chunk)
                     rms = math.sqrt(sum(s * s for s in shorts) / count)
-                    if rms < SILENCE_THRESHOLD:
+                    if rms >= SILENCE_THRESHOLD:
+                        has_spoken = True
+                        silence_start = None
+                    elif has_spoken:
                         if silence_start is None:
                             silence_start = loop.time()
                         elif loop.time() - silence_start >= SILENCE_DURATION:
                             print("Silence detected, stopping recording.")
                             stop_event.set()
                             break
-                    else:
-                        silence_start = None
 
                     await session.send_realtime_input(
                         audio=types.Blob(data=chunk, mime_type="audio/pcm;rate=16000")
