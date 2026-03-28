@@ -7,66 +7,133 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="header-row">
-        <h1 class="logo">Say It Better</h1>
-        <div class="mode-toggle">
-          <button id="mode-voice-btn" class="mode-btn active">🎤 Voice</button>
-          <button id="mode-text-btn" class="mode-btn">⌨️ Type</button>
-        </div>
-      </div>
-      <p class="subtitle">Talk it out. Get the words.</p>
+  <!-- Floating particles -->
+  <div class="particles" aria-hidden="true">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+  </div>
+
+  <div class="app">
+    <header class="app-header">
+      <span class="logo">Say It Better</span>
+      <nav class="mode-nav">
+        <button id="mode-voice-btn" class="mode-pill active">🎤 Voice</button>
+        <button id="mode-text-btn" class="mode-pill">⌨️ Type</button>
+        <button id="mode-decide-btn" class="mode-pill">🔮 Decide</button>
+      </nav>
     </header>
 
-    <main>
-      <!-- Voice idle state -->
+    <p id="subtitle" class="app-subtitle">Talk it out. Get the words.</p>
+
+    <main class="app-main">
+
+      <!-- Voice idle -->
       <div id="state-idle" class="state active">
-        <button id="start-btn" class="mic-btn" aria-label="Start recording">
-          <svg class="mic-icon" width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="10" y="1" width="16" height="24" rx="8" fill="#f0a500"/>
-            <path d="M4 22c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="18" y1="36" x2="18" y2="43" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
-            <line x1="10" y1="43" x2="26" y2="43" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
-          </svg>
-          <span class="btn-label">Start Talking</span>
-        </button>
-        <p class="hint">Describe what you need to say — messy is fine.</p>
+        <div class="hero-text">
+          <h2 class="tagline">Say what you mean.</h2>
+          <p class="sub-tagline">Talk messy. We'll clean it up.</p>
+        </div>
+        <div class="mic-area">
+          <div class="mic-halo"></div>
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="ring ring-4"></div>
+          <button id="start-btn" class="mic-btn" aria-label="Start recording">
+            <svg class="mic-icon" width="32" height="40" viewBox="0 0 32 40" fill="none">
+              <rect x="8" y="0" width="16" height="22" rx="8" fill="currentColor"/>
+              <path d="M2 20c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="16" y1="34" x2="16" y2="40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="8" y1="40" x2="24" y2="40" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+            <span class="btn-label">Start</span>
+          </button>
+        </div>
+        <p class="hint">Describe what you need to say, messy is fine</p>
       </div>
 
-      <!-- Text idle state -->
+      <!-- Text idle -->
       <div id="state-text-idle" class="state">
-        <textarea id="text-input" class="text-input" placeholder="Type what you need to say... messy is fine" rows="5"></textarea>
+        <div class="hero-text">
+          <h2 class="tagline">Type it out.</h2>
+          <p class="sub-tagline">We'll say it for you.</p>
+        </div>
+        <div class="glass-textarea-wrap">
+          <textarea id="text-input" class="text-input" placeholder="Type what you need to say... messy is fine" rows="5"></textarea>
+        </div>
         <button id="send-btn" class="send-btn">Send →</button>
-        <p class="hint">Type it. We say it for you.</p>
+      </div>
+
+      <!-- Decide idle -->
+      <div id="state-decide-idle" class="state">
+        <div class="hero-text">
+          <h2 class="tagline">You already know.</h2>
+          <p class="sub-tagline">Let your voice tell you.</p>
+        </div>
+        <div class="mic-area">
+          <div class="mic-halo"></div>
+          <div class="ring ring-1"></div>
+          <div class="ring ring-2"></div>
+          <div class="ring ring-3"></div>
+          <div class="ring ring-4"></div>
+          <button id="decide-btn" class="decide-orb" aria-label="Start decide session">
+            <div class="robot-face">
+              <div class="robot-eyes">
+                <div class="robot-eye eye-l"></div>
+                <div class="robot-eye eye-r"></div>
+              </div>
+              <div class="robot-mouth"></div>
+            </div>
+            <span class="btn-label">Start</span>
+          </button>
+        </div>
+        <p class="hint">Just talk. Messy is fine. We're listening for what your voice already knows.</p>
       </div>
 
       <!-- Thinking state (shared) -->
       <div id="state-thinking" class="state">
-        <div class="pulse-ring"></div>
-        <div class="pulse-dot"></div>
+        <div class="thinking-visual">
+          <div class="thinking-halo"></div>
+          <div class="thinking-ring"></div>
+          <div class="thinking-dot"></div>
+        </div>
         <p class="thinking-label" id="thinking-label">Listening &amp; thinking…</p>
         <div class="waveform">
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
-          <span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+          <span class="bar"></span><span class="bar"></span>
         </div>
         <button id="cancel-btn" class="secondary-btn">Cancel</button>
       </div>
 
-      <!-- Done state (shared) -->
+      <!-- Done state (voice + text) -->
       <div id="state-done" class="state">
-        <div id="card-wrap">
-          <img id="card-img" src="" alt="Your message card" />
-        </div>
-        <div id="exact-words-wrap">
-          <p class="exact-label">Say exactly:</p>
+        <div id="exact-words-wrap" class="glass-card words-card">
+          <p class="exact-label" id="exact-label">Say exactly:</p>
           <blockquote id="exact-words"></blockquote>
           <button id="copy-btn" class="copy-btn">Copy</button>
         </div>
         <button id="again-btn" class="secondary-btn">Try again</button>
+      </div>
+
+      <!-- Decide reveal -->
+      <div id="state-decide-reveal" class="state">
+        <p id="decide-verdict" class="decide-verdict"></p>
+        <div class="decide-cards">
+          <div class="decide-card-wrap card-a-wrap">
+            <img id="card-a-img" src="" alt="Option A" class="decide-card-img" />
+          </div>
+          <div class="decide-card-wrap card-b-wrap">
+            <img id="card-b-img" src="" alt="Option B" class="decide-card-img" />
+          </div>
+        </div>
+        <button id="decide-again-btn" class="secondary-btn">Try again</button>
       </div>
 
       <!-- Error state -->
@@ -75,11 +142,10 @@
         <p id="error-msg" class="error-msg">Something went wrong.</p>
         <button id="retry-btn" class="secondary-btn">Try again</button>
       </div>
+
     </main>
 
-    <footer class="footer">
-      <p>Powered by Gemini Live + Nano Banana</p>
-    </footer>
+    <footer class="app-footer">Powered by Gemini Live</footer>
   </div>
 
   <script src="app.js"></script>
