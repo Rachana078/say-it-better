@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Say It Better</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="header-row">
+        <h1 class="logo">Say It Better</h1>
+        <div class="mode-toggle">
+          <button id="mode-voice-btn" class="mode-btn active">🎤 Voice</button>
+          <button id="mode-text-btn" class="mode-btn">⌨️ Type</button>
+        </div>
+      </div>
+      <p class="subtitle">Talk it out. Get the words.</p>
+    </header>
+
+    <main>
+      <!-- Voice idle state -->
+      <div id="state-idle" class="state active">
+        <button id="start-btn" class="mic-btn" aria-label="Start recording">
+          <svg class="mic-icon" width="36" height="44" viewBox="0 0 36 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="1" width="16" height="24" rx="8" fill="#f0a500"/>
+            <path d="M4 22c0 7.732 6.268 14 14 14s14-6.268 14-14" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="18" y1="36" x2="18" y2="43" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="10" y1="43" x2="26" y2="43" stroke="#f0a500" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+          <span class="btn-label">Start Talking</span>
+        </button>
+        <p class="hint">Describe what you need to say — messy is fine.</p>
+      </div>
+
+      <!-- Text idle state -->
+      <div id="state-text-idle" class="state">
+        <textarea id="text-input" class="text-input" placeholder="Type what you need to say... messy is fine" rows="5"></textarea>
+        <button id="send-btn" class="send-btn">Send →</button>
+        <p class="hint">Type it. We say it for you.</p>
+      </div>
+
+      <!-- Thinking state (shared) -->
+      <div id="state-thinking" class="state">
+        <div class="pulse-ring"></div>
+        <div class="pulse-dot"></div>
+        <p class="thinking-label" id="thinking-label">Listening &amp; thinking…</p>
+        <div class="waveform">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <button id="cancel-btn" class="secondary-btn">Cancel</button>
+      </div>
+
+      <!-- Done state (shared) -->
+      <div id="state-done" class="state">
+        <div id="card-wrap">
+          <img id="card-img" src="" alt="Your message card" />
+        </div>
+        <div id="exact-words-wrap">
+          <p class="exact-label">Say exactly:</p>
+          <blockquote id="exact-words"></blockquote>
+          <button id="copy-btn" class="copy-btn">Copy</button>
+        </div>
+        <button id="again-btn" class="secondary-btn">Try again</button>
+      </div>
+
+      <!-- Error state -->
+      <div id="state-error" class="state">
+        <p class="error-icon">⚠️</p>
+        <p id="error-msg" class="error-msg">Something went wrong.</p>
+        <button id="retry-btn" class="secondary-btn">Try again</button>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Powered by Gemini Live + Nano Banana</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
